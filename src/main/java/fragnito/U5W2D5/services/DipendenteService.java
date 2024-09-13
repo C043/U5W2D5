@@ -40,4 +40,9 @@ public class DipendenteService {
         this.dipendenteRepository.save(found);
         return found;
     }
+
+    public void deleteDipendente(int id) {
+        Dipendente found = this.getDipendenteById(id);
+        this.dipendenteRepository.delete(found);
+    }
 }

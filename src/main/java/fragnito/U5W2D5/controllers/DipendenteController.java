@@ -51,4 +51,10 @@ public class DipendenteController {
         Dipendente updatedDipendente = this.dipendenteService.updateDipendente(dipendenteId, body);
         return new RespDipendenteDTO(updatedDipendente.getId());
     }
+
+    @DeleteMapping("/{dipendenteId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDipendente(@PathVariable int dipendenteId) {
+        this.dipendenteService.deleteDipendente(dipendenteId);
+    }
 }
