@@ -12,11 +12,10 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class Viaggio {
     @Setter(AccessLevel.NONE)
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String destinazione;
     private LocalDate data;
