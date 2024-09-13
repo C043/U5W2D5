@@ -3,6 +3,7 @@ package fragnito.U5W2D5.controllers;
 import fragnito.U5W2D5.entities.Prenotazione;
 import fragnito.U5W2D5.exceptions.Validation;
 import fragnito.U5W2D5.payloads.PrenotazioneDTO;
+import fragnito.U5W2D5.payloads.PrenotazioneOwnershipDTO;
 import fragnito.U5W2D5.payloads.RespDTO;
 import fragnito.U5W2D5.services.PrenotazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,12 @@ public class PrenotazioneController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePrenotazione(@PathVariable int prenotazioneId) {
         this.prenotazioneService.deletePrenotazione(prenotazioneId);
+    }
+
+    @PatchMapping("/{prenotazioneId}/dipendente")
+    public RespDTO changePrenotazioneOwnerchip(@PathVariable int prenotazioneId, @RequestBody @Validated PrenotazioneOwnershipDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        Prenotazione prenotazione = this.prenotazioneService.changePrenotazioneOwnership(prenotazioneId, body);
+        return new RespDTO(prenotazione.getId());
     }
 }

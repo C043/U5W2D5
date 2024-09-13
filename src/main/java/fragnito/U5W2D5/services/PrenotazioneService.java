@@ -6,6 +6,7 @@ import fragnito.U5W2D5.entities.Viaggio;
 import fragnito.U5W2D5.exceptions.BadRequestException;
 import fragnito.U5W2D5.exceptions.NotFoundException;
 import fragnito.U5W2D5.payloads.PrenotazioneDTO;
+import fragnito.U5W2D5.payloads.PrenotazioneOwnershipDTO;
 import fragnito.U5W2D5.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,18 @@ public class PrenotazioneService {
     public void deletePrenotazione(int id) {
         Prenotazione found = this.getPrenotazioneById(id);
         this.prenotazioneRepository.delete(found);
+    }
+
+    public Prenotazione changePrenotazioneOwnership(int prenotazioneId, PrenotazioneOwnershipDTO body) {
+        Prenotazione found = this.getPrenotazioneById(prenotazioneId);
+        Viaggio viaggio = this.viaggioService.getViaggioById(found.getViaggio().getId());
+        Dipendente dipendente = this.dipendenteService.getDipendenteById(body.dipendenteId());
+        if (!this.prenotazioneRepository.filterPrenotazioniByUserAndData(dipendente.getId(), viaggio.getData()).isEmpty())
+            throw new BadRequestException("Il dipendente " +
+                    "è già impegnato nella data richiesta");
+        found.setDipendente(dipendente);
+        found.setDataRichiesta(LocalDate.now());
+        this.prenotazioneRepository.save(found);
+        return found;
     }
 }
