@@ -1,12 +1,18 @@
 package fragnito.U5W2D5.controllers;
 
 import fragnito.U5W2D5.entities.Dipendente;
+import fragnito.U5W2D5.exceptions.BadRequestException;
 import fragnito.U5W2D5.payloads.NewDipendenteDTO;
 import fragnito.U5W2D5.payloads.RespDipendenteDTO;
 import fragnito.U5W2D5.services.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dipendenti")
@@ -16,7 +22,11 @@ public class DipendenteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RespDipendenteDTO postDipendente(@RequestBody NewDipendenteDTO body) {
+    public RespDipendenteDTO postDipendente(@RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
+        String messages = validation.getAllErrors().stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining(". "));
+        if (validation.hasErrors()) throw new BadRequestException("Ci sono stati degli errori: " + messages);
         Dipendente dipendente = this.dipendenteService.saveDipendente(body);
         return new RespDipendenteDTO(dipendente.getId());
     }
