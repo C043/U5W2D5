@@ -7,6 +7,8 @@ import fragnito.U5W2D5.repositories.DipendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DipendenteService {
     @Autowired
@@ -18,5 +20,9 @@ public class DipendenteService {
         newDipendente.setAvatar("https://ui-avatars.com/api/?name=" + newDipendente.getNome() + "+" + newDipendente.getCognome());
         this.dipendenteRepository.save(newDipendente);
         return newDipendente;
+    }
+
+    public List<Dipendente> getAllDipendenti() {
+        return this.dipendenteRepository.findAll();
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,5 +30,10 @@ public class DipendenteController {
         if (validation.hasErrors()) throw new BadRequestException("Ci sono stati degli errori: " + messages);
         Dipendente dipendente = this.dipendenteService.saveDipendente(body);
         return new RespDipendenteDTO(dipendente.getId());
+    }
+
+    @GetMapping
+    public List<Dipendente> getAllDipendenti() {
+        return this.dipendenteService.getAllDipendenti();
     }
 }
