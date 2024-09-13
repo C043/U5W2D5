@@ -25,4 +25,11 @@ public class Prenotazione {
     @Column(name = "data_richiesta")
     private LocalDate dataRichiesta;
     private String note;
+
+    public Prenotazione(Dipendente dipendente, Viaggio viaggio, String note) {
+        this.dipendente = dipendente;
+        this.viaggio = viaggio;
+        this.dataRichiesta = LocalDate.now();
+        this.note = note;
+    }
 }
