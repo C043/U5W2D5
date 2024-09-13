@@ -11,7 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,5 +58,10 @@ public class DipendenteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDipendente(@PathVariable int dipendenteId) {
         this.dipendenteService.deleteDipendente(dipendenteId);
+    }
+
+    @PostMapping("/{dipendenteId}/avatar")
+    public void uploadAvatar(@PathVariable int dipendenteId, @RequestParam("avatar") MultipartFile img) throws IOException {
+        this.dipendenteService.uploadImage(dipendenteId, img);
     }
 }
