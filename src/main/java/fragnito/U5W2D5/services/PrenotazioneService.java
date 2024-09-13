@@ -4,6 +4,7 @@ import fragnito.U5W2D5.entities.Dipendente;
 import fragnito.U5W2D5.entities.Prenotazione;
 import fragnito.U5W2D5.entities.Viaggio;
 import fragnito.U5W2D5.exceptions.BadRequestException;
+import fragnito.U5W2D5.exceptions.NotFoundException;
 import fragnito.U5W2D5.payloads.PrenotazioneDTO;
 import fragnito.U5W2D5.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,9 @@ public class PrenotazioneService {
 
     public List<Prenotazione> getAllPrenotazioni() {
         return this.prenotazioneRepository.findAll();
+    }
+
+    public Prenotazione getPrenotazioneById(int id) {
+        return this.prenotazioneRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 }

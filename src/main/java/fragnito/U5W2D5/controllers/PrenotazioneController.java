@@ -33,4 +33,9 @@ public class PrenotazioneController {
     public List<Prenotazione> getAllPrenotazioni() {
         return this.prenotazioneService.getAllPrenotazioni();
     }
+
+    @GetMapping("/{prenotazioneId}")
+    public Prenotazione getPrenotazioneById(@PathVariable int prenotazioneId) {
+        return this.prenotazioneService.getPrenotazioneById(prenotazioneId);
+    }
 }
