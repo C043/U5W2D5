@@ -53,4 +53,9 @@ public class PrenotazioneService {
         this.prenotazioneRepository.save(found);
         return found;
     }
+
+    public void deletePrenotazione(int id) {
+        Prenotazione found = this.getPrenotazioneById(id);
+        this.prenotazioneRepository.delete(found);
+    }
 }

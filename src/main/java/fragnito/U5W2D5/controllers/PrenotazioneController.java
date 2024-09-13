@@ -45,4 +45,10 @@ public class PrenotazioneController {
         Prenotazione prenotazione = this.prenotazioneService.updatePrenotazione(prenotazioneId, body);
         return new RespDTO(prenotazione.getId());
     }
+
+    @DeleteMapping("/{prenotazioneId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePrenotazione(@PathVariable int prenotazioneId) {
+        this.prenotazioneService.deletePrenotazione(prenotazioneId);
+    }
 }
