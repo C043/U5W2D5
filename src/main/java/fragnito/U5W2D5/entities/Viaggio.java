@@ -1,10 +1,7 @@
 package fragnito.U5W2D5.entities;
 
 import fragnito.U5W2D5.enums.StatoViaggio;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,5 +19,6 @@ public class Viaggio {
     private int id;
     private String destinazione;
     private LocalDate data;
+    @Enumerated(EnumType.STRING)
     private StatoViaggio stato;
 }
