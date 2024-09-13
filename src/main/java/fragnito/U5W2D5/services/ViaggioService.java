@@ -2,6 +2,7 @@ package fragnito.U5W2D5.services;
 
 import fragnito.U5W2D5.entities.Viaggio;
 import fragnito.U5W2D5.enums.StatoViaggio;
+import fragnito.U5W2D5.exceptions.NotFoundException;
 import fragnito.U5W2D5.payloads.NewViaggioDTO;
 import fragnito.U5W2D5.repositories.ViaggioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class ViaggioService {
 
     public List<Viaggio> getAllViaggi() {
         return this.viaggioRepository.findAll();
+    }
+
+    public Viaggio getViaggioById(int id) {
+        return this.viaggioRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 }
