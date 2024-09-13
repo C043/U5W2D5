@@ -36,4 +36,9 @@ public class DipendenteController {
     public List<Dipendente> getAllDipendenti() {
         return this.dipendenteService.getAllDipendenti();
     }
+
+    @GetMapping("/{dipendenteId}")
+    public Dipendente getDipendenteById(@PathVariable int dipendenteId) {
+        return this.dipendenteService.getDipendenteById(dipendenteId);
+    }
 }

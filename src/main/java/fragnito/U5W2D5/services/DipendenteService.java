@@ -2,6 +2,7 @@ package fragnito.U5W2D5.services;
 
 import fragnito.U5W2D5.entities.Dipendente;
 import fragnito.U5W2D5.exceptions.BadRequestException;
+import fragnito.U5W2D5.exceptions.NotFoundException;
 import fragnito.U5W2D5.payloads.NewDipendenteDTO;
 import fragnito.U5W2D5.repositories.DipendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,9 @@ public class DipendenteService {
 
     public List<Dipendente> getAllDipendenti() {
         return this.dipendenteRepository.findAll();
+    }
+
+    public Dipendente getDipendenteById(int id) {
+        return this.dipendenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 }
