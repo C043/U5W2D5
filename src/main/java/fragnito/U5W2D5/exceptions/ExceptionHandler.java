@@ -28,7 +28,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleException(Exception ex) {
-        log.error(ex.getMessage());
+        ex.printStackTrace();
         return new ErrorsDTO("Ci scusiamo per l'inconveniente", LocalDateTime.now());
     }
 }

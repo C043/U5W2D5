@@ -1,10 +1,13 @@
 package fragnito.U5W2D5.services;
 
 import fragnito.U5W2D5.entities.Viaggio;
+import fragnito.U5W2D5.enums.StatoViaggio;
 import fragnito.U5W2D5.payloads.NewViaggioDTO;
 import fragnito.U5W2D5.repositories.ViaggioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ViaggioService {
@@ -12,8 +15,12 @@ public class ViaggioService {
     private ViaggioRepository viaggioRepository;
 
     public Viaggio saveViaggio(NewViaggioDTO body) {
-        Viaggio newViaggio = new Viaggio(body.destinazione(), body.data(), body.stato());
+        Viaggio newViaggio = new Viaggio(body.destinazione(), body.data(), StatoViaggio.valueOf(body.stato()));
         this.viaggioRepository.save(newViaggio);
         return newViaggio;
+    }
+
+    public List<Viaggio> getAllViaggi() {
+        return this.viaggioRepository.findAll();
     }
 }
