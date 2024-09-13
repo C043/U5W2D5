@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Viaggio {
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue
     private int id;
