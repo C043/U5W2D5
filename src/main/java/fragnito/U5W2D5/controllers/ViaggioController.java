@@ -39,4 +39,11 @@ public class ViaggioController {
     public Viaggio getViaggioById(@PathVariable int viaggioId) {
         return this.viaggioService.getViaggioById(viaggioId);
     }
+
+    @PutMapping("/{viaggioId}")
+    public RespDTO putViaggio(@PathVariable int viaggioId, @RequestBody @Validated NewViaggioDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        Viaggio updatedViaggio = this.viaggioService.putViaggio(viaggioId, body);
+        return new RespDTO(updatedViaggio.getId());
+    }
 }

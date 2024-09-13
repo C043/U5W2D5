@@ -28,4 +28,13 @@ public class ViaggioService {
     public Viaggio getViaggioById(int id) {
         return this.viaggioRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
+
+    public Viaggio putViaggio(int id, NewViaggioDTO body) {
+        Viaggio found = this.getViaggioById(id);
+        found.setDestinazione(body.destinazione());
+        found.setStato(StatoViaggio.valueOf(body.stato()));
+        found.setData(body.data());
+        this.viaggioRepository.save(found);
+        return found;
+    }
 }
