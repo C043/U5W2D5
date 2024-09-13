@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/prenotazioni")
 public class PrenotazioneController {
@@ -25,5 +27,10 @@ public class PrenotazioneController {
         this.validation.validate(validation);
         Prenotazione prenotazione = this.prenotazioneService.savePrenotazione(body);
         return new RespDTO(prenotazione.getId());
+    }
+
+    @GetMapping
+    public List<Prenotazione> getAllPrenotazioni() {
+        return this.prenotazioneService.getAllPrenotazioni();
     }
 }

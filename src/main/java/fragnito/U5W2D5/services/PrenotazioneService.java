@@ -9,6 +9,8 @@ import fragnito.U5W2D5.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PrenotazioneService {
     @Autowired
@@ -29,5 +31,9 @@ public class PrenotazioneService {
         Prenotazione prenotazione = new Prenotazione(dipendente, viaggio, body.note());
         this.prenotazioneRepository.save(prenotazione);
         return prenotazione;
+    }
+
+    public List<Prenotazione> getAllPrenotazioni() {
+        return this.prenotazioneRepository.findAll();
     }
 }
