@@ -9,10 +9,13 @@ import fragnito.U5W2D5.payloads.PrenotazioneDTO;
 import fragnito.U5W2D5.payloads.PrenotazioneOwnershipDTO;
 import fragnito.U5W2D5.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class PrenotazioneService {
@@ -36,8 +39,9 @@ public class PrenotazioneService {
         return prenotazione;
     }
 
-    public List<Prenotazione> getAllPrenotazioni() {
-        return this.prenotazioneRepository.findAll();
+    public Page<Prenotazione> getAllPrenotazioni(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.prenotazioneRepository.findAll(pageable);
     }
 
     public Prenotazione getPrenotazioneById(int id) {
