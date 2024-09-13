@@ -4,6 +4,7 @@ import fragnito.U5W2D5.entities.Viaggio;
 import fragnito.U5W2D5.exceptions.Validation;
 import fragnito.U5W2D5.payloads.NewViaggioDTO;
 import fragnito.U5W2D5.payloads.RespDTO;
+import fragnito.U5W2D5.payloads.StatoViaggioDTO;
 import fragnito.U5W2D5.services.ViaggioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,5 +52,12 @@ public class ViaggioController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteViaggio(@PathVariable int viaggioId) {
         this.viaggioService.deleteViaggio(viaggioId);
+    }
+
+    @PatchMapping("/{viaggioId}/statoViaggio")
+    public RespDTO changeStatoViaggio(@PathVariable int viaggioId, @RequestBody @Validated StatoViaggioDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        Viaggio viaggio = this.viaggioService.changeStatoViaggio(viaggioId, body);
+        return new RespDTO(viaggio.getId());
     }
 }

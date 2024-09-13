@@ -4,6 +4,7 @@ import fragnito.U5W2D5.entities.Viaggio;
 import fragnito.U5W2D5.enums.StatoViaggio;
 import fragnito.U5W2D5.exceptions.NotFoundException;
 import fragnito.U5W2D5.payloads.NewViaggioDTO;
+import fragnito.U5W2D5.payloads.StatoViaggioDTO;
 import fragnito.U5W2D5.repositories.ViaggioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,12 @@ public class ViaggioService {
     public void deleteViaggio(int id) {
         Viaggio found = this.getViaggioById(id);
         this.viaggioRepository.delete(found);
+    }
+
+    public Viaggio changeStatoViaggio(int id, StatoViaggioDTO body) {
+        Viaggio found = this.getViaggioById(id);
+        found.setStato(StatoViaggio.valueOf(body.stato()));
+        this.viaggioRepository.save(found);
+        return found;
     }
 }
