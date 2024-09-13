@@ -10,6 +10,7 @@ import fragnito.U5W2D5.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,5 +41,16 @@ public class PrenotazioneService {
 
     public Prenotazione getPrenotazioneById(int id) {
         return this.prenotazioneRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public Prenotazione updatePrenotazione(int id, PrenotazioneDTO body) {
+        Prenotazione found = this.getPrenotazioneById(id);
+        if (found.getDipendente().getId() != body.dipendenteId()) throw new BadRequestException("Endpoint sbagliato per cambiare assegnazione di prenotazione");
+        Viaggio viaggio = this.viaggioService.getViaggioById(body.viaggioId());
+        found.setNote(body.note());
+        found.setViaggio(viaggio);
+        found.setDataRichiesta(LocalDate.now());
+        this.prenotazioneRepository.save(found);
+        return found;
     }
 }

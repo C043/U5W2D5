@@ -38,4 +38,11 @@ public class PrenotazioneController {
     public Prenotazione getPrenotazioneById(@PathVariable int prenotazioneId) {
         return this.prenotazioneService.getPrenotazioneById(prenotazioneId);
     }
+
+    @PutMapping("/{prenotazioneId}")
+    public RespDTO putPrenotazione(@PathVariable int prenotazioneId, @RequestBody @Validated PrenotazioneDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        Prenotazione prenotazione = this.prenotazioneService.updatePrenotazione(prenotazioneId, body);
+        return new RespDTO(prenotazione.getId());
+    }
 }
