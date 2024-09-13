@@ -46,4 +46,10 @@ public class ViaggioController {
         Viaggio updatedViaggio = this.viaggioService.putViaggio(viaggioId, body);
         return new RespDTO(updatedViaggio.getId());
     }
+
+    @DeleteMapping("/{viaggioId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteViaggio(@PathVariable int viaggioId) {
+        this.viaggioService.deleteViaggio(viaggioId);
+    }
 }

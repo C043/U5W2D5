@@ -37,4 +37,9 @@ public class ViaggioService {
         this.viaggioRepository.save(found);
         return found;
     }
+
+    public void deleteViaggio(int id) {
+        Viaggio found = this.getViaggioById(id);
+        this.viaggioRepository.delete(found);
+    }
 }
