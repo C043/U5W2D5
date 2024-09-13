@@ -41,4 +41,14 @@ public class DipendenteController {
     public Dipendente getDipendenteById(@PathVariable int dipendenteId) {
         return this.dipendenteService.getDipendenteById(dipendenteId);
     }
+
+    @PutMapping("/{dipendenteId}")
+    public RespDipendenteDTO putDipendente(@PathVariable int dipendenteId, @RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
+        String messages = validation.getAllErrors().stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining(". "));
+        if (validation.hasErrors()) throw new BadRequestException("Ci sono stati degli errori: " + messages);
+        Dipendente updatedDipendente = this.dipendenteService.updateDipendente(dipendenteId, body);
+        return new RespDipendenteDTO(updatedDipendente.getId());
+    }
 }

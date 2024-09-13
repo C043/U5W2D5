@@ -30,4 +30,14 @@ public class DipendenteService {
     public Dipendente getDipendenteById(int id) {
         return this.dipendenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
+
+    public Dipendente updateDipendente(int id, NewDipendenteDTO updatedDipendente) {
+        Dipendente found = this.getDipendenteById(id);
+        found.setNome(updatedDipendente.nome());
+        found.setCognome(updatedDipendente.cognome());
+        found.setEmail(updatedDipendente.email());
+        found.setUsername(updatedDipendente.username());
+        this.dipendenteRepository.save(found);
+        return found;
+    }
 }
