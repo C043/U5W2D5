@@ -1,21 +1,19 @@
 package fragnito.U5W2D5.controllers;
 
 import fragnito.U5W2D5.entities.Dipendente;
-import fragnito.U5W2D5.exceptions.BadRequestException;
+import fragnito.U5W2D5.exceptions.Validation;
 import fragnito.U5W2D5.payloads.NewDipendenteDTO;
-import fragnito.U5W2D5.payloads.RespDipendenteDTO;
+import fragnito.U5W2D5.payloads.RespDTO;
 import fragnito.U5W2D5.services.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dipendenti")
@@ -23,15 +21,15 @@ public class DipendenteController {
     @Autowired
     private DipendenteService dipendenteService;
 
+    @Autowired
+    private Validation validation;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RespDipendenteDTO postDipendente(@RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
-        String messages = validation.getAllErrors().stream()
-                .map(ObjectError::getDefaultMessage)
-                .collect(Collectors.joining(". "));
-        if (validation.hasErrors()) throw new BadRequestException("Ci sono stati degli errori: " + messages);
+    public RespDTO postDipendente(@RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
+        this.validation.validate(validation);
         Dipendente dipendente = this.dipendenteService.saveDipendente(body);
-        return new RespDipendenteDTO(dipendente.getId());
+        return new RespDTO(dipendente.getId());
     }
 
     @GetMapping
@@ -45,13 +43,10 @@ public class DipendenteController {
     }
 
     @PutMapping("/{dipendenteId}")
-    public RespDipendenteDTO putDipendente(@PathVariable int dipendenteId, @RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
-        String messages = validation.getAllErrors().stream()
-                .map(ObjectError::getDefaultMessage)
-                .collect(Collectors.joining(". "));
-        if (validation.hasErrors()) throw new BadRequestException("Ci sono stati degli errori: " + messages);
+    public RespDTO putDipendente(@PathVariable int dipendenteId, @RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
+        this.validation.validate(validation);
         Dipendente updatedDipendente = this.dipendenteService.updateDipendente(dipendenteId, body);
-        return new RespDipendenteDTO(updatedDipendente.getId());
+        return new RespDTO(updatedDipendente.getId());
     }
 
     @DeleteMapping("/{dipendenteId}")
